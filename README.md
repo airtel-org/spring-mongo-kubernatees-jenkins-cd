@@ -75,16 +75,16 @@ MongoDB → Stateful with persistent storage
 Services → Handle networking and discovery
 
 .
-├── springbootmongo.yaml        # Kubernetes deployment (App + MongoDB)
-├── Jenkinsfile                 # Jenkins pipeline for CD (if applicable)
-├── pom.xml                     # Maven build configuration
-├── src/                        # Spring Boot application source code
+├── springbootmongo.yaml       
+├── Jenkinsfile 
+├── pom.xml                                
+├── src/                       
 │   ├── main/
-│   │   ├── java/               # Java source files
-│   │   │   └── com/example/... # Controllers, Services, Repositories
-│   │   └── resources/          # application.yml / application.properties
-│   └── test/                   # Unit and integration tests
-└── README.md                   # Project documentation
+│   │   ├── java/               
+│   │   │   └── com/example/...
+│   │   └── resources/         
+│   └── test/                  
+└── README.md                   
 
 
 📄 Kubernetes Deployment Strategy
