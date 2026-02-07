@@ -1,145 +1,133 @@
-🚀 Spring Boot + MongoDB Application on Kubernetes  
-Production-style Kubernetes deployment using a single YAML file
+👇
 
-✨ Project Highlights  
-✅ Spring Boot application deployed on Kubernetes  
-✅ MongoDB deployed with persistent storage  
-✅ Single YAML file deployment (springbootmongo.yaml)  
-✅ Uses core Kubernetes objects (Deployment, ConfigMap, Secret, PV, PVC, Service)  
-✅ NodePort services for application access  
-✅ Production-style separation of stateless and stateful components  
+🚀 Spring Boot + MongoDB on Kubernetes | Jenkins-Driven CD (POC)
 
-📌 Project Overview  
-This project demonstrates a **real-world Kubernetes deployment** of a **Spring Boot application integrated with MongoDB**.
+Production-style Kubernetes deployment of a Spring Boot + MongoDB application, managed using a single YAML file and deployed via Jenkins CI/CD.
 
-The complete deployment is managed using **one Kubernetes YAML file** named:
+✨ Project Highlights
 
-springbootmongo.yaml
+✅ Spring Boot deployed on Kubernetes
+✅ MongoDB with persistent storage (PV & PVC)
+✅ Single YAML deployment (springbootmongo.yaml)
+✅ Jenkins pipeline pulls code and deploys to Kubernetes
+✅ NodePort used for application access
+✅ Clear separation of stateless (App) and stateful (DB) components
 
-The file contains **all required Kubernetes objects** for both the application and the database, separated using YAML document separators (`---`).
+📌 Project Overview
 
----
+This project demonstrates a real-world Kubernetes Continuous Deployment (CD) flow.
 
-🏗️ Architecture Overview  
-Client → NodePort Service → Spring Boot Pods → MongoDB Service → MongoDB Pod (PV/PVC)
+Source code is pulled by Jenkins
 
-Spring Boot runs as a **stateless application**, while MongoDB runs as a **stateful component with persistent storage**.
+Docker image is fetched from Docker Hub
 
----
+Application is deployed to Kubernetes using one YAML file
 
-🛠️ Technologies Used  
-Spring Boot  
-MongoDB  
-Docker (image pulled from Docker Hub)  
-Kubernetes  
-kubectl  
-Linux  
+All Kubernetes objects are defined using --- separators
 
----
+🏗️ Architecture Flow
 
-📦 Kubernetes Objects Used  
+Client
+→ NodePort Service
+→ Spring Boot Pods (Stateless)
+→ MongoDB Service
+→ MongoDB Pod (Stateful with PV/PVC)
+→ Response back to client
 
-The deployment uses the following Kubernetes resources:
+🛠️ Tech Stack
 
-Spring Boot:
-- Deployment  
-- ReplicaSet  
-- ConfigMap  
-- Secret  
-- Service (NodePort)  
+Spring Boot
 
-MongoDB:  
-- ReplicaSet  
-- ConfigMap  
-- Secret  
-- Persistent Volume (PV)  
-- Persistent Volume Claim (PVC)  
-- Service (NodePort)  
+MongoDB
 
-All the above resources are defined inside **one YAML file**.
+Docker (Docker Hub)
 
----
+Jenkins (CI/CD)
 
-📂 Deployment File Structure  
+Kubernetes
 
-springbootmongo.yaml contains multiple Kubernetes manifests separated by:
+kubectl
 
----
+Linux
 
-This allows managing the entire application stack using a single file.
+📦 Kubernetes Objects Used
 
----
+Spring Boot
 
-🧱 MongoDB Deployment (Stateful Component)  
+Deployment
 
-MongoDB is deployed as a stateful service with:
-- Configuration stored in ConfigMap  
-- Credentials stored securely in Secret  
-- Data persisted using PV and PVC  
-- Service used for internal connectivity  
+ConfigMap
 
-MongoDB data remains **persistent even if the pod restarts or is recreated**.
+Secret
 
----
+Service (NodePort)
 
-🧩 Spring Boot Deployment (Stateless Component)  
+MongoDB
 
-Spring Boot is deployed as a stateless application with:
-- Multiple replicas for availability  
-- Configuration injected using ConfigMap  
-- Database credentials injected using Secret  
-- Exposed externally using a NodePort Service  
+ReplicaSet
 
-Spring Boot connects to MongoDB using the MongoDB Kubernetes service name.
+ConfigMap
 
----
+Secret
 
-🚀 Deployment Command  
+Persistent Volume (PV)
 
-The entire application stack is deployed using a **single command**:
+Persistent Volume Claim (PVC)
+
+Service
+
+👉 All resources are defined inside a single YAML file
+
+🚀 Deployment (via Jenkins)
+
+Jenkins pipeline executes:
 
 kubectl apply -f springbootmongo.yaml --validate=false
 
----
 
-🔍 Verification Commands  
+This:
 
-kubectl get pods  
-kubectl get svc  
-kubectl logs <pod-name>  
+Pulls the Docker image
 
----
+Creates all Kubernetes resources
 
-🌐 Application Access  
+Attaches persistent storage to MongoDB
 
-The Spring Boot application can be accessed using:
+Deploys the application end-to-end
 
+🌐 Application Access
 http://<Node-IP>:<NodePort>
 
----
 
-🎯 Key Kubernetes Concepts Demonstrated  
-✔ Single-file Kubernetes deployment  
-✔ Stateless vs Stateful workloads  
-✔ ConfigMaps and Secrets usage  
-✔ Persistent storage with PV & PVC  
-✔ Service-based networking  
-✔ NodePort exposure  
-✔ Production-style Kubernetes object usage  
+Verification:
 
----
+kubectl get pods
+kubectl get svc
+kubectl logs <pod-name>
 
-🔮 Future Enhancements  
-Split YAML into multiple files  
-Use Ingress instead of NodePort  
-Add liveness and readiness probes  
-Use StatefulSet for MongoDB  
-Introduce Helm charts  
+🎯 What This POC Demonstrates
 
----
+✔ Jenkins-driven Kubernetes deployment
+✔ Single-file Kubernetes management
+✔ Stateless vs Stateful workloads
+✔ ConfigMaps, Secrets, PV & PVC
+✔ Production-style Kubernetes architecture
 
-👤 Author  
-Nitheesh Kumar Bellamkonda  
-DevOps Engineer | Kubernetes | Docker | Jenkins | AWS  
+🔮 Future Enhancements
 
-⭐ This project is built for learning and real-world Kubernetes practice.
+Ingress with AWS ALB
+
+StatefulSet for MongoDB
+
+Health probes
+
+Helm charts
+
+Full CI/CD automation
+
+👤 Nitheesh Kumar Bellamkonda
+DevOps Engineer | Kubernetes | Jenkins | Docker | AWS
+
+📌 This project is a Proof of Concept (POC) built to demonstrate real-world Kubernetes CD using Jenkins.
+
+#DevOps #Kubernetes #Jenkins #CI_CD #SpringBoot #MongoDB #Docker #CloudNative #POC #LearningByDoing
