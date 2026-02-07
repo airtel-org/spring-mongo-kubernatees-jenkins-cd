@@ -1,60 +1,113 @@
+🚀 Spring Boot + MongoDB on Kubernetes (Jenkins CD – POC)
+
+This repository demonstrates a production-style Kubernetes deployment of a Spring Boot application integrated with MongoDB, deployed using Jenkins-driven Continuous Deployment (CD).
+
+The entire Kubernetes stack is managed using a single YAML file, making this project ideal for learning and demonstrating real-world DevOps workflows.
+
+📌 Project Type
+
+Proof of Concept (POC)
+Built to demonstrate end-to-end DevOps deployment flow using Docker, Jenkins, and Kubernetes.
+
+🧠 High-Level Overview
+
+This project covers the deployment phase (CD) of an application lifecycle:
+
+Application is already containerized using Docker
+
+Docker image is stored in Docker Hub
+
+Jenkins pulls the code and triggers deployment
+
+Kubernetes orchestrates the application and database
+
+🔁 End-to-End Flow (Build → Deploy)
+Stage 1: Application Build (Already Completed)
+
+Spring Boot application is containerized
+
+Docker image is pushed to Docker Hub
+
+No image rebuild during Kubernetes deployment
+
+Stage 2: Continuous Deployment (Focus of This Project)
+
+Jenkins pulls the repository
+
+Jenkins executes Kubernetes deployment commands
+
+Kubernetes pulls the Docker image and runs the application
+
+☁️ Infrastructure Layer
+
+Kubernetes cluster (can be local or cloud-based)
+
+Worker nodes schedule:
+
+Spring Boot application pods
+
+MongoDB database pod
+
+MongoDB uses persistent storage
+
+🏗️ Architecture Overview
+Request & Response Flow
+User (Browser)
+   ↓
+NodePort Service
+   ↓
+Spring Boot Pods (Stateless)
+   ↓
+MongoDB Service
+   ↓
+MongoDB Pod (Stateful)
+   ↓
+Persistent Volume (PV)
+   ↓
+Response back to User Browser
+
+Design Principles
+
+Spring Boot → Stateless
+
+MongoDB → Stateful with persistent storage
+
+Services → Handle networking and discovery
+
+.
+├── springbootmongo.yaml        # Kubernetes deployment (App + MongoDB)
+├── Jenkinsfile                 # Jenkins pipeline for CD (if applicable)
+├── pom.xml                     # Maven build configuration
+├── src/                        # Spring Boot application source code
+│   ├── main/
+│   │   ├── java/               # Java source files
+│   │   │   └── com/example/... # Controllers, Services, Repositories
+│   │   └── resources/          # application.yml / application.properties
+│   └── test/                   # Unit and integration tests
+└── README.md                   # Project documentation
 
 
-🚀 Spring Boot + MongoDB on Kubernetes | Jenkins-Driven CD (POC)
+📄 Kubernetes Deployment Strategy
+Single YAML File Approach
 
-Production-style Kubernetes deployment of a Spring Boot + MongoDB application, managed using a single YAML file and deployed via Jenkins CI/CD.
+All Kubernetes resources are defined in one file:
 
-✨ Project Highlights
+springbootmongo.yaml
 
-✅ Spring Boot deployed on Kubernetes
-✅ MongoDB with persistent storage (PV & PVC)
-✅ Single YAML deployment (springbootmongo.yaml)
-✅ Jenkins pipeline pulls code and deploys to Kubernetes
-✅ NodePort used for application access
-✅ Clear separation of stateless (App) and stateful (DB) components
 
-📌 Project Overview
+Each resource is separated using YAML document separators:
 
-This project demonstrates a real-world Kubernetes Continuous Deployment (CD) flow.
+---
 
-Source code is pulled by Jenkins
 
-Docker image is fetched from Docker Hub
-
-Application is deployed to Kubernetes using one YAML file
-
-All Kubernetes objects are defined using --- separators
-
-🏗️ Architecture Flow
-
-Client
-→ NodePort Service
-→ Spring Boot Pods (Stateless)
-→ MongoDB Service
-→ MongoDB Pod (Stateful with PV/PVC)
-→ Response back to client
-
-🛠️ Tech Stack
-
-Spring Boot
-
-MongoDB
-
-Docker (Docker Hub)
-
-Jenkins (CI/CD)
-
-Kubernetes
-
-kubectl
-
-Linux
+This enables one-command deployment of the entire stack.
 
 📦 Kubernetes Objects Used
-
-Spring Boot
+Spring Boot (Stateless Application)
 
 Deployment
+
+ReplicaSet
 
 ConfigMap
 
@@ -62,7 +115,7 @@ Secret
 
 Service (NodePort)
 
-MongoDB
+MongoDB (Stateful Database)
 
 ReplicaSet
 
@@ -76,58 +129,102 @@ Persistent Volume Claim (PVC)
 
 Service
 
-👉 All resources are defined inside a single YAML file
+🧱 MongoDB – Stateful Component
 
-🚀 Deployment (via Jenkins)
+MongoDB is deployed with:
 
-Jenkins pipeline executes:
+Configuration via ConfigMap
+
+Credentials via Secret
+
+Data persistence using PV & PVC
+
+Internal access using a Kubernetes Service
+
+✅ Data remains safe even if the pod restarts or is recreated.
+
+🧩 Spring Boot – Stateless Component
+
+Spring Boot is deployed with:
+
+Multiple replicas for availability
+
+Configuration injected via ConfigMap
+
+Database credentials injected via Secret
+
+Exposed externally using a NodePort Service
+
+Spring Boot connects to MongoDB using the MongoDB service name.
+
+🚀 Deployment via Jenkins (CD Stage)
+
+Jenkins pipeline executes the deployment using:
 
 kubectl apply -f springbootmongo.yaml --validate=false
 
+What This Command Does
 
-This:
-
-Pulls the Docker image
+Pulls Docker images from Docker Hub
 
 Creates all Kubernetes resources
 
+Schedules pods on worker nodes
+
 Attaches persistent storage to MongoDB
 
-Deploys the application end-to-end
+🔍 Verification & Monitoring
 
-🌐 Application Access
-http://<Node-IP>:<NodePort>
-
-
-Verification:
+Check deployment status:
 
 kubectl get pods
 kubectl get svc
+kubectl get pvc
 kubectl logs <pod-name>
 
-🎯 What This POC Demonstrates
+🌐 Application Access
 
-✔ Jenkins-driven Kubernetes deployment
-✔ Single-file Kubernetes management
-✔ Stateless vs Stateful workloads
-✔ ConfigMaps, Secrets, PV & PVC
-✔ Production-style Kubernetes architecture
+The Spring Boot application can be accessed via:
+
+http://<Node-IP>:<NodePort>
+
+🎯 Key Kubernetes & DevOps Concepts Demonstrated
+
+Jenkins-driven Continuous Deployment
+
+Single-file Kubernetes deployment
+
+Stateless vs Stateful workloads
+
+ConfigMaps & Secrets
+
+Persistent storage with PV & PVC
+
+Service-based networking
+
+NodePort exposure
+
+Production-style Kubernetes design
 
 🔮 Future Enhancements
 
-Ingress with AWS ALB
+Replace NodePort with Ingress
 
-StatefulSet for MongoDB
+Use StatefulSet for MongoDB
 
-Health probes
+Add liveness & readiness probes
 
-Helm charts
+Split YAML into multiple files
 
-Full CI/CD automation
+Introduce Helm charts
 
-👤 Nitheesh Kumar Bellamkonda
+Build full CI/CD pipeline (CI + CD)
+
+👤 Author
+
+Nitheesh Kumar Bellamkonda
 DevOps Engineer | Kubernetes | Jenkins | Docker | AWS
 
-📌 This project is a Proof of Concept (POC) built to demonstrate real-world Kubernetes CD using Jenkins.
+⭐ Note
 
-#DevOps #Kubernetes #Jenkins #CI_CD #SpringBoot #MongoDB #Docker #CloudNative #POC #LearningByDoing
+This project is a Proof of Concept (POC) built for learning, practice, and real-world DevOps demonstration.
