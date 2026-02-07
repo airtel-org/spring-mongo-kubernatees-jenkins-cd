@@ -48,8 +48,7 @@ Spring Boot:
 - Secret  
 - Service (NodePort)  
 
-MongoDB:
-- Deployment  
+MongoDB:  
 - ReplicaSet  
 - ConfigMap  
 - Secret  
