@@ -1,4 +1,4 @@
-👇
+
 
 🚀 Spring Boot + MongoDB on Kubernetes | Jenkins-Driven CD (POC)
 
